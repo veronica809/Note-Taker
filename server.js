@@ -70,6 +70,11 @@ app.post("/api/notes", (req, res) => {
   }
 });
 
+app.delete("/api/notes/:id", (req, res) => {
+  res.send("Got a DELETE request at /user");
+  console.log(req.params.id);
+});
+
 app.listen(PORT, () =>
   console.log(`Example app listening at http://localhost:${PORT}`)
 );

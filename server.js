@@ -75,25 +75,22 @@ app.delete("/api/notes/:id", (req, res) => {
 
   const { title, text } = req.body;
 
+  var parsedReviews = [];
+
   if (id) {
     fs.readFile("db.json", "utf8", (err, data) => {
       if (err) {
         console.error(err);
       } else {
         // Convert string into JSON object
-        const parsedReviews = JSON.parse(data);
+        parsedReviews = JSON.parse(data);
 
         // var index = parsedReviews.indexOf(id);
         var index = parsedReviews.findIndex((x) => x.id === id);
-        console.log(index);
         if (index > -1) {
           // only splice array when item is found
           parsedReviews.splice(index, 1); // 2nd parameter means remove one item only
         }
-
-        // // Add a new review
-        // parsedReviews.pop(eraseToDo);
-
         // Write updated reviews back to the file
         fs.writeFile(
           "db.json",

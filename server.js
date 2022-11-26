@@ -66,13 +66,56 @@ app.post("/api/notes", (req, res) => {
     console.log(response);
     res.status(201).json(response);
   } else {
-    res.status(500).json("Error in posting review");
+    res.status(500).json("Error in posting ToDo");
   }
 });
 
 app.delete("/api/notes/:id", (req, res) => {
-  res.send("Got a DELETE request at /user");
-  console.log(req.params.id);
+  var id = req.params.id;
+
+  const { title, text } = req.body;
+
+  if (id) {
+    fs.readFile("db.json", "utf8", (err, data) => {
+      if (err) {
+        console.error(err);
+      } else {
+        // Convert string into JSON object
+        const parsedReviews = JSON.parse(data);
+
+        // var index = parsedReviews.indexOf(id);
+        var index = parsedReviews.findIndex((x) => x.id === id);
+        console.log(index);
+        if (index > -1) {
+          // only splice array when item is found
+          parsedReviews.splice(index, 1); // 2nd parameter means remove one item only
+        }
+
+        // // Add a new review
+        // parsedReviews.pop(eraseToDo);
+
+        // Write updated reviews back to the file
+        fs.writeFile(
+          "db.json",
+          JSON.stringify(parsedReviews, null, 4),
+          (writeErr) =>
+            writeErr
+              ? console.error(writeErr)
+              : console.info("Successfully updated ToDos!")
+        );
+      }
+    });
+
+    const response = {
+      status: "success",
+      body: parsedReviews,
+    };
+
+    console.log(response);
+    res.status(201).json(response);
+  } else {
+    res.status(500).json("Error in posting ToDo");
+  }
 });
 
 app.listen(PORT, () =>

@@ -41,15 +41,15 @@ app.post("/api/notes", (req, res) => {
         console.error(err);
       } else {
         // Convert string into JSON object
-        const parsedReviews = JSON.parse(data);
+        const parsedToDos = JSON.parse(data);
 
         // Add a new review
-        parsedReviews.push(newToDo);
+        parsedToDos.push(newToDo);
 
         // Write updated reviews back to the file
         fs.writeFile(
           "db.json",
-          JSON.stringify(parsedReviews, null, 4),
+          JSON.stringify(parsedToDos, null, 4),
           (writeErr) =>
             writeErr
               ? console.error(writeErr)

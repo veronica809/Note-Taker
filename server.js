@@ -4,7 +4,7 @@ const fs = require("fs");
 const util = require("util");
 const uuid = require("./helpers/uuid");
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8080;
 const app = express();
 
 app.use(express.json());
